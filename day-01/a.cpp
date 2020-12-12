@@ -1,54 +1,44 @@
 #include <algorithm>
 #include <cstdlib>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <set>
 #include <vector>
 
 int main(int argc, char* argv[])
 {
-    std::vector<unsigned> v;
-    std::vector<unsigned>::const_iterator it1, it2, a, b;
+    std::vector<unsigned> entries;
+    std::vector<unsigned>::const_iterator it, a, b;
     unsigned n;
 
     while (std::cin >> n)
-        v.push_back(n);
+        entries.push_back(n);
 
-    // std::sort(v.begin(), v.end());
+    std::set<unsigned> seen(entries.begin(), entries.end());
 
-    // std::cout << "Read " << v.size() << " entries." << std::endl;
+    // std::sort(entries.begin(), entries.end());
 
-    it2 = it1 = v.begin();
-    b = a = v.end();
+    // std::cout << "Read " << entries.size() << " entries." << std::endl;
+
+    it = entries.begin();
+    b = a = entries.end();
     n = 0;
 
-    for (it1 = v.begin(); it1 != v.end(); it1++) {
-        unsigned i = it1 - v.begin();
-        if (*it1 >= 2020)
+    for (it = entries.begin(); it != entries.end(); it++) {
+        n++;
+        const unsigned &x = *it;
+        if (*it >= 2020)
             continue;
-        for (it2 = it1 + 1; it2 != v.end(); it2++) {
-            n++;
-            unsigned j = it2 - v.begin();
-            unsigned sum = *it1 + *it2;
-            unsigned pro = (*it1) * (*it2);
-            if (v.size() < 10)
-                printf("[%2u,%2u]: %5u %5u %5u %u\n", i, j, *it1, *it2, sum, pro);
-            if (*it1 + *it2 == 2020) {
-                a = it1;
-                b = it2;
-                break;
-            }
+        const unsigned y = 2020 - x;
+        if (seen.find(y) != seen.end()) {
+            std::cout << "Found the pair in " << n << " steps." << std::endl;
+            std::cout <<   "a = " << x
+                      << ", b = " << y
+                      << ", ab = "
+                      << x * y
+                      << std::endl;
+            break;
         }
-    }
-
-    if (a != v.end() && b != v.end()) {
-        std::cout << "Found the pair in " << n << " steps." << std::endl;
-        std::cout <<   "a = " << *a
-                  << ", b = " << *b
-                  << ", ab = "
-                  << (*b) * (*b)
-                  << std::endl;
-    } else {
-        std::cout << "Failed to find the pair." << std::endl;
     }
 
     return 0;
