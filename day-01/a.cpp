@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     while (std::cin >> n)
         v.push_back(n);
 
-    std::sort(v.begin(), v.end());
+    // std::sort(v.begin(), v.end());
 
     // std::cout << "Read " << v.size() << " entries." << std::endl;
 
@@ -23,6 +23,8 @@ int main(int argc, char* argv[])
 
     for (it1 = v.begin(); it1 != v.end(); it1++) {
         unsigned i = it1 - v.begin();
+        if (*it1 >= 2020)
+            continue;
         for (it2 = it1 + 1; it2 != v.end(); it2++) {
             n++;
             unsigned j = it2 - v.begin();
