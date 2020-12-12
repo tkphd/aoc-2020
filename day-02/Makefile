@@ -4,7 +4,7 @@ all: $(exe)
 .PHONY: all clean run
 
 %.out: %.cpp
-	g++ -O3 -Wall -pedantic -fopenmp $< -o $@
+	g++ -O3 -Wall -fopenmp $< -o $@
 
 run: a.out b.out
 	./a.out < input.txt && ./b.out < input.txt
