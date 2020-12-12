@@ -8,7 +8,6 @@
 int main(int argc, char* argv[])
 {
     std::vector<unsigned> entries;
-    std::vector<unsigned>::const_iterator it1, it2;
     unsigned n;
 
     while (std::cin >> n)
@@ -16,14 +15,13 @@ int main(int argc, char* argv[])
 
     std::set<unsigned> seen(entries.begin(), entries.end());
 
-    it2 = it1 = entries.begin();
     n = 0;
 
-    for (it1 = entries.begin(); it1 != entries.end(); it1++) {
+    for (std::vector<unsigned>::const_iterator it1 = entries.begin(); it1 != entries.end(); it1++) {
         const unsigned& x = *it1;
         if (x >= 2020)
             continue;
-        for (it2 = it1 + 1; it2 != entries.end(); it2++) {
+        for (std::vector<unsigned>::const_iterator it2 = it1 + 1; it2 != entries.end(); it2++) {
             const unsigned& y = *it2;
             if (x + y >= 2020)
                 continue;
@@ -37,7 +35,7 @@ int main(int argc, char* argv[])
                           << ", abc = "
                           << x * y * z
                           << std::endl;
-                break;
+                return 0;
             }
         }
     }
