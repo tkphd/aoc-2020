@@ -5,41 +5,48 @@
 
 int main(int argc, char* argv[])
 {
-    std::ifstream input("input1.txt");
-    if (!input) {
-        std::cerr << "Error: unable to open input file!" << std::endl;
-        std::exit(EXIT_FAILURE);
-    }
-
     std::vector<unsigned> v;
-    std::vector<unsigned>::const_iterator it1;
-    std::vector<unsigned>::const_iterator it2;
-    std::vector<unsigned>::const_iterator it3;
+    std::vector<unsigned>::const_iterator it1, it2, it3, a, b, c;
     unsigned n;
 
-    while (input >> n)
+    while (std::cin >> n)
         v.push_back(n);
-
-    input.close();
 
     std::cout << "Read " << v.size() << " entries." << std::endl;
 
     it3 = it2 = it1 = v.begin();
+    c = b = a = v.end();
 
-    for (it1 = v.begin(); it1 != v.end(); it1++)
-        for (it2 = it1; it2 != v.end(); it2++)
-            for (it3 = it2; it3 != v.end(); it3++)
+    for (it1 = v.begin(); it1 != v.end(); it1++) {
+        unsigned i = it1 - v.begin();
+        for (it2 = it1 + 1; it2 != v.end(); it2++) {
+            unsigned j = it2 - v.begin();
+            for (it3 = it2 + 1; it3 != v.end(); it3++) {
+                unsigned k = it3 - v.begin();
+                unsigned sum = *it1 + *it2 + *it3;
+                unsigned pro = (*it1) * (*it2) * (*it3);
+                if (v.size() < 10)
+                    printf("[%2u,%2u,%2u]: %5u %5u %5u %5u %u\n",
+                           i, j, k, *it1, *it2, *it3, sum, pro);
                 if (*it1 + *it2 + *it3 == 2020) {
-                    std::cout <<   "a = " << *it1
-                              << ", b = " << *it2
-                              << ", c = " << *it3
-                              << ", abc = "
-                              << (*it1) * (*it2) * (*it3)
-                              << std::endl;
-                    return EXIT_SUCCESS;
+                    a = it1;
+                    b = it2;
+                    c = it3;
                 }
+            }
+        }
+    }
 
-    std::cout << "Failed to find the trio." << std::endl;
+    if (a != v.end() && b != v.end() && c != v.end()) {
+    std::cout <<   "a = " << *a
+              << ", b = " << *b
+              << ", c = " << *c
+              << ", abc = "
+              << (*a) * (*b) * (*c)
+              << std::endl;
+    } else {
+        std::cout << "Failed to find the trio." << std::endl;
+    }
 
-    return EXIT_SUCCESS;
+    return 0;
 }
