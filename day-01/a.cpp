@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
         if (*it >= 2020)
             continue;
         const unsigned y = 2020 - x;
-        if (seen.find(y) != seen.end()) {
+        if (x != y && seen.find(y) != seen.end()) {
             std::cout << "Found the pair in " << n << " steps." << std::endl;
             std::cout <<   "a = " << x
                       << ", b = " << y
