@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
@@ -12,16 +13,20 @@ int main(int argc, char* argv[])
     while (std::cin >> n)
         v.push_back(n);
 
-    std::cout << "Read " << v.size() << " entries." << std::endl;
+    std::sort(v.begin(), v.end());
+
+    // std::cout << "Read " << v.size() << " entries." << std::endl;
 
     it3 = it2 = it1 = v.begin();
     c = b = a = v.end();
+    n = 0;
 
     for (it1 = v.begin(); it1 != v.end(); it1++) {
         unsigned i = it1 - v.begin();
         for (it2 = it1 + 1; it2 != v.end(); it2++) {
             unsigned j = it2 - v.begin();
             for (it3 = it2 + 1; it3 != v.end(); it3++) {
+                ++n;
                 unsigned k = it3 - v.begin();
                 unsigned sum = *it1 + *it2 + *it3;
                 unsigned pro = (*it1) * (*it2) * (*it3);
@@ -32,18 +37,20 @@ int main(int argc, char* argv[])
                     a = it1;
                     b = it2;
                     c = it3;
+                    break;
                 }
             }
         }
     }
 
     if (a != v.end() && b != v.end() && c != v.end()) {
-    std::cout <<   "a = " << *a
-              << ", b = " << *b
-              << ", c = " << *c
-              << ", abc = "
-              << (*a) * (*b) * (*c)
-              << std::endl;
+        std::cout << "Found the trio in " << n << " steps." << std::endl;
+        std::cout <<   "a = " << *a
+                  << ", b = " << *b
+                  << ", c = " << *c
+                  << ", abc = "
+                  << (*a) * (*b) * (*c)
+                  << std::endl;
     } else {
         std::cout << "Failed to find the trio." << std::endl;
     }
