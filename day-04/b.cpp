@@ -19,8 +19,6 @@ bool check_pass(const std::set<std::string>& keys,
     std::map<std::string, std::string>::const_iterator it;
 
     for (st = keys.begin(); st != keys.end(); st++) {
-        if (*st == std::string("cid"))
-            continue;
         if (passport.find(*st) == passport.end()) {
             if (verbose)
                 std::cout << "missing " << *st << '\n';
@@ -117,7 +115,8 @@ bool check_pass(const std::set<std::string>& keys,
 
     // Check "ecl" (Eye Color) - exactly one of: amb blu brn gry grn hzl oth
     it = passport.find(std::string("ecl"));
-    if (colors.find(it->second) == colors.end())
+    if (it->second.length() != 3 ||
+        colors.find(it->second) == colors.end())
     {
         if (verbose)
             std::cout << "Bad ecl" << '\n';
@@ -147,7 +146,7 @@ int main(int argc, char* argv[])
     keys.insert(std::string("hcl"));
     keys.insert(std::string("ecl"));
     keys.insert(std::string("pid"));
-    keys.insert(std::string("cid"));
+    // keys.insert(std::string("cid"));
 
     std::set<std::string> colors;
     colors.insert(std::string("amb"));
@@ -179,6 +178,8 @@ int main(int argc, char* argv[])
                     std::cout << '\n';
             } else {
                 sscanf(line.c_str(), "%3s:%s", key, val);
+                if (std::string(key) == std::string("cid"))
+                    continue;
                 passport[std::string(key)] = std::string(val);
                 std::map<std::string, std::string>::const_iterator it = passport.find(std::string(key));
                 if (verbose && n < 10)

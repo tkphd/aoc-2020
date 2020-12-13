@@ -15,8 +15,6 @@ bool check_pass(const std::set<std::string>& keys,
         return true;
 
     for (std::set<std::string>::const_iterator it = keys.begin(); it != keys.end(); it++) {
-        if (*it == std::string("cid"))
-            continue;
         if (passport.find(*it) == passport.end()) {
             if (verbose)
                 std::cout << "missing " << *it << '\n';
@@ -45,7 +43,7 @@ int main(int argc, char* argv[])
     keys.insert(std::string("hcl"));
     keys.insert(std::string("ecl"));
     keys.insert(std::string("pid"));
-    keys.insert(std::string("cid"));
+    // keys.insert(std::string("cid"));
 
     std::string line, pair;
     std::map<std::string, std::string> passport;
@@ -68,6 +66,8 @@ int main(int argc, char* argv[])
                     std::cout << '\n';
             } else {
                 sscanf(line.c_str(), "%3s:%s", key, val);
+                if (std::string(key) == std::string("cid"))
+                    continue;
                 passport[std::string(key)] = std::string(val);
                 if (verbose && n < 5)
                     std::cout << n << ' ' << l << ' ' << key << ' ' << val << '\n';
