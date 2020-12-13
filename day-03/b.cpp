@@ -16,12 +16,12 @@ int main(int argc, char* argv[])
             mtn.push_back(std::vector<char>(line.begin(), line.end()));
 
     for (unsigned k = 0; k < 5; k++) {
-        size_t i = 0, j = 0;
-        while (i < mtn.size() && j < mtn[0].size()) {
-            if (mtn[i][j] == '#')
+        size_t row = 0, col = 0;
+        while (row < mtn.size() && col < mtn[0].size()) {
+            if (mtn[row][col] == '#')
                 ++n[k];
-            i += dy[k];
-            j = (j + dx[k]) % mtn[0].size();
+            row += dy[k];
+            col = (col + dx[k]) % mtn[0].size();
         }
     }
 
