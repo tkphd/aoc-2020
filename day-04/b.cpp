@@ -69,17 +69,17 @@ bool check_pass(const std::set<std::string>& keys,
 
     // Check "hgt" (Height) - a number followed by either cm or in
     it = passport.find(std::string("hgt"));
-    if (it->second.find_first_of("cm") == std::string::npos &&
-        it->second.find_first_of("in") == std::string::npos)
+    if (it->second.find_first_of("cm") == it->second.npos &&
+        it->second.find_first_of("in") == it->second.npos)
     {
         if (verbose)
             std::cout << "Bad hgt unit" << '\n';
         return false;
     }
 
-    if (it->second.find_first_of("cm") != std::string::npos) {
+    if (it->second.find_first_of("cm") != it->second.npos) {
         std::string hgt_cm(it->second);
-        while (hgt_cm.find_first_of("cm") != std::string::npos)
+        while (hgt_cm.find_first_of("cm") != it->second.npos)
             hgt_cm[hgt_cm.find_first_of("cm")] = '\0';
         int hgt = std::atoi(hgt_cm.c_str());
         if (hgt < 150 || hgt > 193)
@@ -89,9 +89,9 @@ bool check_pass(const std::set<std::string>& keys,
             return false;
         }
     }
-    if (it->second.find_first_of("in") != std::string::npos) {
+    if (it->second.find_first_of("in") != it->second.npos) {
         std::string hgt_in(it->second);
-        while (hgt_in.find_first_of("in") != std::string::npos)
+        while (hgt_in.find_first_of("in") != it->second.npos)
             hgt_in[hgt_in.find_first_of("in")] = '\0';
         int hgt = std::atoi(hgt_in.c_str());
         if (hgt < 59 || hgt > 76)
@@ -105,7 +105,7 @@ bool check_pass(const std::set<std::string>& keys,
     // Check "hcl" (Hair Color) - a # followed by exactly six characters 0-9 or a-f
     it = passport.find(std::string("hcl"));
     if (it->second[0] != '#' ||
-        it->second.find_first_not_of("#0123456789abcdef") != std::string::npos ||
+        it->second.find_first_not_of("#0123456789abcdef") != it->second.npos ||
         it->second.length() != 7)
     {
         if (verbose)
@@ -126,7 +126,7 @@ bool check_pass(const std::set<std::string>& keys,
     // Check "pid" (Passport ID) - a nine-digit number, including leading zeroes
     it = passport.find(std::string("pid"));
     if (it->second.length() != 9 ||
-        it->second.find_first_not_of("0123456789") != std::string::npos)
+        it->second.find_first_not_of("0123456789") != it->second.npos)
     {
         if (verbose)
             std::cout << "Bad pid" << '\n';
