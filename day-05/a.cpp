@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+const bool verbose = false;
+
 int main(int argc, char* argv[])
 {
     std::string line;
@@ -24,12 +26,14 @@ int main(int argc, char* argv[])
 
         for (unsigned i = 0; i < nrow; i++) {
             const char& key = line[i];
-            std::cout << key << ' ';
+            if (verbose)
+                std::cout << key << ' ';
             if (key == 'B') {
                 // seat is toward the back
                 row += seats / 2;
             }
-            std::cout << row << '\n';
+            if (verbose)
+                std::cout << row << '\n';
             seats /= 2;
         }
 
@@ -38,17 +42,20 @@ int main(int argc, char* argv[])
 
         for (unsigned i = nrow; i < nrow + ncol; i++) {
             const char& key = line[i];
-            std::cout << key << ' ';
+            if (verbose)
+                std::cout << key << ' ';
             if (key == 'R') {
                 // seat is toward the back
                 col += seats / 2;
             }
-            std::cout << col << '\n';
+            if (verbose)
+                std::cout << col << '\n';
             seats /= 2;
         }
 
         const unsigned idx = row * std::pow(2, ncol) + col;
-        std::cout << line << " (" << row << ',' << col << ") -> " << idx << std::endl;
+        if (verbose)
+            std::cout << line << " (" << row << ',' << col << ") -> " << idx << std::endl;
 
         filled_seats.insert(idx);
     }
