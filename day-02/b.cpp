@@ -18,9 +18,9 @@ int main(int argc, char* argv[])
 
         bool inFirst = (pass[min - 1] == key);
         bool inLast  = (pass[max - 1] == key);
+        bool xor_equiv = (inFirst != inLast);
 
-        if ( (inFirst || inLast) &&
-            !(inFirst && inLast))
+        if ( xor_equiv)
         {
             valid = true;
         }
