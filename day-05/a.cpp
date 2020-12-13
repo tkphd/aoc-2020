@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -13,47 +14,46 @@ int main(int argc, char* argv[])
 {
     std::string line;
     unsigned row,  col; // zero-indexed
-    unsigned nrow = 0, ncol = 3;
+    unsigned erow = 7, ecol = 3;
+    // unsigned nrow = std::pow(2, erow);
+    // unsigned ncol = std::pow(2, ecol);
     std::set<unsigned> filled_seats;
 
     while (std::getline(std::cin, line)) {
-        nrow = line.length() - ncol;
+        erow = line.length() - ecol;
         row = col = 0;
+        unsigned char crow = 0;
+        unsigned char ccol = 0;
 
-        unsigned seats = std::pow(2, nrow); // zero-indexed
+        std::string row_str = line.substr(0, erow);
+        std::reverse(row_str.begin(), row_str.end());
 
-        // std::cout << "There are " << seats << " rows.\n";
-
-        for (unsigned i = 0; i < nrow; i++) {
-            const char& key = line[i];
-            if (verbose)
-                std::cout << key << ' ';
-            if (key == 'B') {
-                // seat is toward the back
-                row += seats / 2;
+        for (unsigned i = 0; i < row_str.length(); i++) {
+            char c = row_str[i];
+            if (c == 'B') {
+                crow |= 1 << i;
             }
-            if (verbose)
-                std::cout << row << '\n';
-            seats /= 2;
         }
 
-        seats = std::pow(2, ncol);
-        // std::cout << "There are " << seats << " cols.\n";
+        row = unsigned(crow);
+        if (verbose)
+            std::cout << row_str << " = " << row << '\n';
 
-        for (unsigned i = nrow; i < nrow + ncol; i++) {
-            const char& key = line[i];
-            if (verbose)
-                std::cout << key << ' ';
-            if (key == 'R') {
-                // seat is toward the back
-                col += seats / 2;
+        std::string col_str = line.substr(erow, ecol);
+        std::reverse(col_str.begin(), col_str.end());
+
+        for (unsigned i = 0; i < col_str.length(); i++) {
+            char c = col_str[i];
+            if (c == 'R') {
+                ccol |= 1 << i;
             }
-            if (verbose)
-                std::cout << col << '\n';
-            seats /= 2;
         }
 
-        const unsigned idx = row * std::pow(2, ncol) + col;
+        col = unsigned(ccol);
+        if (verbose)
+            std::cout << col_str << " = " << col << '\n';
+
+        const unsigned idx = row * std::pow(2, ecol) + col;
         if (verbose)
             std::cout << line << " (" << row << ',' << col << ") -> " << idx << std::endl;
 
